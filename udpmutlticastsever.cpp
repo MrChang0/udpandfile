@@ -6,7 +6,9 @@ const char* REQUEST = "request";
 const char* RESPONSE = "response";
 const char* SENDSTART = "sendstart";
 
-UDPMutlticastSever::UDPMutlticastSever(QObject *parent) : QObject(parent),port_(SEVUDPPORT)
+UDPMutlticastSever::UDPMutlticastSever(QObject *parent) :
+    QObject(parent),
+    port_(SEVUDPPORT)
 {
     QObject::connect(&this->udpsocket_,&QUdpSocket::readyRead,this,&UDPMutlticastSever::gotmsg);
 }

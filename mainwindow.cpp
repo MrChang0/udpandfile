@@ -2,7 +2,9 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),ui(new Ui::MainWindow),filesever_(new fileserver(this))
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    filesever_(new fileserver(this))
 {
     ui->setupUi(this);
     ui->scan_pushButton->setDisabled(true);

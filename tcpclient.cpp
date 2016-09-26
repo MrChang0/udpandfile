@@ -2,22 +2,23 @@
 const char* ERRORREV = "rev_error";
 
 tcpclient::tcpclient(QFile *file,QTcpSocket *socket,QHostAddress addr,QObject *parent) : \
-    QObject(parent),clientsock(socket),addr(addr)
+    QObject(parent),
+    totalBytes_(file->size()),
+    bytesToWrite_(totalBytes_),
+    bytesWritten_(0),
+    loadSize_(4*1024),
+    localfile_(file),
+    clientsock(socket),
+    addr(addr)
 {
-    this->localfile_ = file;
-    loadSize_ = 4*1024;
-    bytesWritten_ = 0;
     QString name = file->fileName();
     this->filename_ = name.right(name.size() - name.lastIndexOf('/') - 1);
-    totalBytes_ = localfile_->size();
-    bytesToWrite_ = totalBytes_;
     QObject::connect(clientsock,&QTcpSocket::bytesWritten,this,&tcpclient::filedatasend);
     QObject::connect(clientsock,&QTcpSocket::readyRead,this,&tcpclient::msgrev);
 
     QString currentFileName = filename_;
     QString datasend = QString::number(totalBytes_) + QString(" ") + currentFileName + QString("\n");
 
-    bytesToWrite_ = totalBytes_;
     bytesWritten_ -= datasend.size();
     clientsock->write(datasend.toLocal8Bit().data(),datasend.size());
     outBlock.resize(4*1024);

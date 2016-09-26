@@ -16,15 +16,16 @@ public:
     QString getaddr() const;
 private:
     qint64 totalBytes_;                               //总共数据大小
-    qint64 bytesWritten_;                       //已发送数据大小
     qint64 bytesToWrite_;                     //还剩数据大小
+    qint64 bytesWritten_;                       //已发送数据大小
     qint64 loadSize_;                              //缓冲区大小
     QString filename_;
     QByteArray outBlock;                     //数据缓冲区，即存放每次要发送的数据
 
+    QFile *localfile_;
     QTcpSocket *clientsock;
     QHostAddress addr;
-    QFile *localfile_;
+
     int row;
 signals:
     void finishsend(QString addr);
