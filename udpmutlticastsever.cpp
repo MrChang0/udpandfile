@@ -19,9 +19,9 @@ void UDPMutlticastSever::gotmsg()
     quint16 port;
     QByteArray data;
     int size = this->udpsocket_.pendingDatagramSize();
-    data.reserve(size);
+    data.resize(size);
     this->udpsocket_.readDatagram(data.data(),size,&clientaddress,&port);
-    if(strncmp(data.data(),RESPONSE,size) == 0)
+    if(data == RESPONSE)
     {
         emit getclient(clientaddress);
     }
